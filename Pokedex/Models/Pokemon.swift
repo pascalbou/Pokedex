@@ -15,4 +15,6 @@ struct Pokemon: Codable {
 
 struct AllPokemons: Codable {
     var results: [Pokemon]
+    var next: String?
+    var previous: String?
 }
