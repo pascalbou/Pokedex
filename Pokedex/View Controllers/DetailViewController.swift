@@ -25,6 +25,8 @@ class DetailViewController: UIViewController {
             DispatchQueue.main.async {
                 self.pokemonImageView.image = self.pokemonSprite
                 self.pokemonNameLabel.text = self.pokemon?.name.capitalized
+                self.pokemonTypeLabel.text = self.pokemonSingle?.types[0].type.name
+                self.pokemonAttacksLabel.text = self.pokemonSingle?.moves[0].move.name
             }
         }
     }
