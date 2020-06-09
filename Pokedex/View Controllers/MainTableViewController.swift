@@ -35,7 +35,7 @@ class MainTableViewController: UITableViewController {
         
         
         guard let url1 = urlComp?.url else { return }
-        print(url1)
+//        print(url1)
         var request = URLRequest(url: url1)
         request.httpMethod = HTTPMethod.get.rawValue
         
@@ -75,14 +75,14 @@ class MainTableViewController: UITableViewController {
     }
 
 
-    /*
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "DetailViewSegue" {
+            if let destinationVC = segue.destination as? DetailViewController, let index = tableView.indexPathForSelectedRow?.row {
+                destinationVC.pokemon = self.allPokemons?.results[index]
+            }
+        }
     }
-    */
 
 }

@@ -18,3 +18,29 @@ struct AllPokemons: Codable {
     var next: String?
     var previous: String?
 }
+
+struct Move: Codable {
+    let name: String
+    let url: String
+}
+
+struct Sprite: Codable {
+    let front_default: String
+    let front_shiny: String
+//    let url: String
+}
+
+struct Type: Codable {
+    let name: String
+    let url: String
+}
+
+struct PokemonSingle: Codable {
+    var move: Move
+    var sprite: String
+    var type: Type
+}
+
+struct PokemonSingleJSON: Codable {
+    var sprites: Sprite
+}
