@@ -45,11 +45,11 @@ struct SingleMove: Codable {
 }
 
 struct PokemonSingle: Codable {
-    var moves: [SingleMove]
+//    var moves: [SingleMove]
     var sprites: Sprite
-    var types: [SingleType]
+//    var types: [SingleType]
 }
 
-struct PokemonSingleJSON: Codable {
-    var sprites: Sprite
-}
+//struct PokemonSingleJSON: Codable {
+//    var sprites: Sprite
+//}
