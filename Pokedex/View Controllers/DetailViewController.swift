@@ -15,12 +15,18 @@ class DetailViewController: UIViewController {
     var pokemonSingle: PokemonSingleJSON? {
         didSet {
             DispatchQueue.main.async {
-                self.view.reloadInputViews()
+                self.getPokemonSprite()
             }
             
         }
     }
-    var pokemonSprite: UIImage?
+    var pokemonSprite: UIImage? {
+        didSet {
+            DispatchQueue.main.async {
+                self.pokemonImageView.image = self.pokemonSprite
+            }
+        }
+    }
     
     @IBOutlet weak var pokemonImageView: UIImageView!
     @IBOutlet weak var pokemonNameLabel: UILabel!
@@ -30,7 +36,7 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.getOnePokemon()
-        print(self.pokemon)
+//        print(self.pokemon)
 //        print(self.pokemonSingle)
     }
     
@@ -82,17 +88,7 @@ class DetailViewController: UIViewController {
             }
             
             guard let data = data else { return }
-            do {
-    //                let dataJSON = try JSONDecoder().decode(PokemonSingleJSON.self, from: data)
-    //                print(dataJSON)
-    //                self.pokemonSingle?.sprite = dataJSON.sprites.front_default
-                self.pokemonSingle = try JSONDecoder().decode(PokemonSingleJSON.self, from: data)
-                print(self.pokemonSingle?.sprites.front_default)
-                
-    //                print(self.pokemonSingle?.sprite)
-            } catch {
-                NSLog("Error: \(error)")
-            }
+            self.pokemonSprite = UIImage(data: data)
         }
         task.resume()
     }

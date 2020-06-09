@@ -35,10 +35,19 @@ struct Type: Codable {
     let url: String
 }
 
+struct SingleType: Codable {
+    let slot: String
+    let type: Type
+}
+
+struct SingleMove: Codable {
+    let move: Move
+}
+
 struct PokemonSingle: Codable {
-    var move: Move
-    var sprite: String
-    var type: Type
+    var moves: [SingleMove]
+    var sprites: Sprite
+    var types: [SingleType]
 }
 
 struct PokemonSingleJSON: Codable {
