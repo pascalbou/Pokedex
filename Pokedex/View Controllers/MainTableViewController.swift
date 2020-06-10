@@ -12,7 +12,7 @@ final class MainTableViewController: UITableViewController {
 
     private let baseURL = URL(string: "https://pokeapi.co/api/v2/")!
     private let cellReuseID = "PokemonCell"
-    private var allPokemons: AllPokemons? {
+    private var allPokemons: AllPokemonsResponse? {
         didSet {
             DispatchQueue.main.async {
                 self.tableView.reloadData()
@@ -46,7 +46,7 @@ final class MainTableViewController: UITableViewController {
             
             guard let data = data else { return }
             do {
-                self.allPokemons = try JSONDecoder().decode(AllPokemons.self, from: data)
+                self.allPokemons = try JSONDecoder().decode(AllPokemonsResponse.self, from: data)
 //                print(self.allPokemons?.results)
 //                print(self.allPokemons?.next)
 //                print(self.allPokemons?.previous)

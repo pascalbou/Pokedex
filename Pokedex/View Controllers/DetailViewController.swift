@@ -9,15 +9,14 @@
 import UIKit
 
 final class DetailViewController: UIViewController {
-    
+
     private let baseURL = URL(string: "https://pokeapi.co/api/v2/")!
     var pokemon: Pokemon?
-    var pokemonSingle: PokemonSingle? {
+    var pokemonResponse: PokemonResponse? {
         didSet {
             DispatchQueue.main.async {
                 self.getPokemonSprite()
             }
-            
         }
     }
     var pokemonSprite: UIImage? {
@@ -25,12 +24,12 @@ final class DetailViewController: UIViewController {
             DispatchQueue.main.async {
                 self.pokemonImageView.image = self.pokemonSprite
                 self.pokemonNameLabel.text = self.pokemon?.name.capitalized
-                self.pokemonTypeLabel.text = self.pokemonSingle?.types[0].type.name
-                self.pokemonAttacksLabel.text = self.pokemonSingle?.moves[0].move.name
+//                self.pokemonTypeLabel.text = self.pokemonResponse?.types[0].type.name
+//                self.pokemonAttacksLabel.text = self.pokemonResponse?.moves[0].move.name
             }
         }
     }
-    
+
     @IBOutlet weak var pokemonImageView: UIImageView!
     @IBOutlet weak var pokemonNameLabel: UILabel!
     @IBOutlet weak var pokemonTypeLabel: UILabel!
@@ -39,50 +38,50 @@ final class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.getOnePokemon()
-//        print(self.pokemon)
-//        print(self.pokemonSingle)
+//        print(self.pokemonResponse)
+//        print(self.pokemonResponse)
     }
-    
+
     private func getOnePokemon() {
-        var url = baseURL
-        url.appendPathComponent("pokemon")
+        var pokemonURL = baseURL
+        pokemonURL.appendPathComponent("pokemon")
         if let name = pokemon?.name {
-            url.appendPathComponent(name)
+            pokemonURL.appendPathComponent(name)
         }
-        
-        
-        var request = URLRequest(url: url)
+        var request = URLRequest(url: pokemonURL)
         request.httpMethod = HTTPMethod.get.rawValue
-        
+
         let task = URLSession.shared.dataTask(with: request) { (data, _, error) in
             if let error = error {
                 NSLog("Error: \(error)")
                 return
             }
-            
+
             guard let data = data else { return }
             do {
-                self.pokemonSingle = try JSONDecoder().decode(PokemonSingle.self, from: data)
-//                print(self.pokemonSingle?.sprites.front_default)
+                self.pokemonResponse = try JSONDecoder().decode(PokemonResponse.self, from: data)
+//                print(self.pokemonResponse?.sprites.front_default)
             } catch {
                 NSLog("Error: \(error)")
             }
         }
         task.resume()
     }
-    
-    
+
+
     private func getPokemonSprite() {
-        guard let sprite = self.pokemonSingle?.sprites.front_default, let spriteURL = URL(string: sprite) else { return }
+        guard let sprite = self.pokemonResponse?.spriteURLString, let spriteURL = URL(string: sprite) else { return }
+        print(sprite)
+        print(spriteURL)
         var request = URLRequest(url: spriteURL)
         request.httpMethod = HTTPMethod.get.rawValue
-        
+
         let task = URLSession.shared.dataTask(with: request) { (data, _, error) in
             if let error = error {
                 NSLog("Error: \(error)")
                 return
             }
-            
+
             guard let data = data else { return }
             self.pokemonSprite = UIImage(data: data)
         }
