@@ -62,13 +62,8 @@ final class DetailViewController: UIViewController {
             
             guard let data = data else { return }
             do {
-//                let dataJSON = try JSONDecoder().decode(PokemonSingleJSON.self, from: data)
-//                print(dataJSON)
-//                self.pokemonSingle?.sprite = dataJSON.sprites.front_default
                 self.pokemonSingle = try JSONDecoder().decode(PokemonSingle.self, from: data)
 //                print(self.pokemonSingle?.sprites.front_default)
-                
-//                print(self.pokemonSingle?.sprite)
             } catch {
                 NSLog("Error: \(error)")
             }

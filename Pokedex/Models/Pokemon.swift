@@ -50,6 +50,3 @@ struct PokemonSingle: Codable {
     var types: [SingleType]
 }
 
-//struct PokemonSingleJSON: Codable {
-//    var sprites: Sprite
-//}

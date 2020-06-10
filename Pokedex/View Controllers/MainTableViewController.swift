@@ -35,7 +35,6 @@ final class MainTableViewController: UITableViewController {
         
         
         guard let url1 = urlComp?.url else { return }
-//        print(url1)
         var request = URLRequest(url: url1)
         request.httpMethod = HTTPMethod.get.rawValue
         
