@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MainTableViewController: UITableViewController {
+final class MainTableViewController: UITableViewController {
 
     private let baseURL = URL(string: "https://pokeapi.co/api/v2/")!
     private let cellReuseID = "PokemonCell"
@@ -59,10 +59,6 @@ class MainTableViewController: UITableViewController {
     }
 
     // MARK: - Table view data source
-
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return allPokemons?.results.count ?? 0

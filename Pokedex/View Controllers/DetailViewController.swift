@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DetailViewController: UIViewController {
+final class DetailViewController: UIViewController {
     
     private let baseURL = URL(string: "https://pokeapi.co/api/v2/")!
     var pokemon: Pokemon?
@@ -78,10 +78,8 @@ class DetailViewController: UIViewController {
     
     
     private func getPokemonSprite() {
-        guard let urlString = self.pokemonSingle?.sprites.front_default else { return }
-        let url = URL(string: urlString)
-        guard let url1 = url else { return }
-        var request = URLRequest(url: url1)
+        guard let sprite = self.pokemonSingle?.sprites.front_default, let spriteURL = URL(string: sprite) else { return }
+        var request = URLRequest(url: spriteURL)
         request.httpMethod = HTTPMethod.get.rawValue
         
         let task = URLSession.shared.dataTask(with: request) { (data, _, error) in
