@@ -11,23 +11,12 @@ import Foundation
 final class PokemonPathBuilder {
     private let baseURL = URL(string: "https://pokeapi.co/api/v2/")!
     
-    func urlAllPokemons() -> URL {
-        var allPokemonsURL = baseURL
-        allPokemonsURL.appendPathComponent("pokemon")
-        let allPokemonsURLComp = NSURLComponents(url: allPokemonsURL, resolvingAgainstBaseURL: true)!
-        allPokemonsURLComp.queryItems = [URLQueryItem(name: "limit", value: "100"), URLQueryItem(name: "offset", value: "0")]
-        return allPokemonsURLComp.url!
+    func urlAllPokemons() -> String {
+        "\(baseURL)/pokemon/?limit=100&offset=0"
     }
     
-    func urlOnePokemon(forPokemon pokemonName: String) -> URL {
-        var pokemonURL = baseURL
-        pokemonURL.appendPathComponent("pokemon")
-        pokemonURL.appendPathComponent(pokemonName)
-        return pokemonURL
+    func urlOnePokemon(forPokemon name: String) -> String {
+        "\(baseURL)/pokemon/\(name)"
     }
     
-    func urlPokemonSprite(withSprite sprite: String) -> URL? {
-        guard let spriteURL = URL(string: sprite) else { return nil }
-        return spriteURL
-    }
 }
