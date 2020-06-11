@@ -10,7 +10,7 @@ import UIKit
 
 final class MainTableViewController: UITableViewController {
 
-    private let baseURL = URL(string: "https://pokeapi.co/api/v2/")!
+    private let client = PokemonClient()
     private let cellReuseID = "PokemonCell"
     private var allPokemons: AllPokemonsResponse? {
         didSet {
@@ -24,38 +24,17 @@ final class MainTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Pokemons"
-        self.getAllPokemons()
-    }
-    
-    private func getAllPokemons() {
-        var url = baseURL
-        url.appendPathComponent("pokemon")
-        var urlComp = URLComponents(url: url, resolvingAgainstBaseURL: false)
-        urlComp?.queryItems = [URLQueryItem(name: "limit", value: "100"), URLQueryItem(name: "offset", value: "0")]
         
-        
-        guard let url1 = urlComp?.url else { return }
-        var request = URLRequest(url: url1)
-        request.httpMethod = HTTPMethod.get.rawValue
-        
-        let task = URLSession.shared.dataTask(with: request) { (data, _, error) in
+        client.fetchAllPokemons { (allPokemons, error) in
             if let error = error {
                 NSLog("Error: \(error)")
                 return
             }
-            
-            guard let data = data else { return }
-            do {
-                self.allPokemons = try JSONDecoder().decode(AllPokemonsResponse.self, from: data)
-//                print(self.allPokemons?.results)
-//                print(self.allPokemons?.next)
-//                print(self.allPokemons?.previous)
-            } catch {
-                NSLog("Error: \(error)")
-            }
+            self.allPokemons = allPokemons
         }
-        task.resume()
     }
+    
+
 
     // MARK: - Table view data source
 

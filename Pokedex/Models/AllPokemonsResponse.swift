@@ -9,7 +9,6 @@
 import Foundation
 
 struct AllPokemonsResponse: Decodable {
-
     var results: [Pokemon]
     var next: String?
     var previous: String?

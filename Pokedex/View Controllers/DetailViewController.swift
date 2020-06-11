@@ -10,12 +10,20 @@ import UIKit
 
 final class DetailViewController: UIViewController {
 
-    private let baseURL = URL(string: "https://pokeapi.co/api/v2/")!
+    private let client = PokemonClient()
     var pokemon: Pokemon?
     var pokemonResponse: PokemonResponse? {
         didSet {
             DispatchQueue.main.async {
-                self.getPokemonSprite()
+                guard let sprite = self.pokemonResponse?.spriteURLString else { return }
+                self.client.fetchPokemonSprite(withSprite: sprite) { (data, error) in
+                    if let error = error {
+                        NSLog("Error: \(error)")
+                        return
+                    }
+                    guard let data = data else { return }
+                    self.pokemonSprite = UIImage(data: data)
+                }
             }
         }
     }
@@ -37,56 +45,17 @@ final class DetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.getOnePokemon()
-//        print(self.pokemonResponse)
-//        print(self.pokemonResponse)
-    }
-
-    private func getOnePokemon() {
-        var pokemonURL = baseURL
-        pokemonURL.appendPathComponent("pokemon")
-        if let name = pokemon?.name {
-            pokemonURL.appendPathComponent(name)
-        }
-        var request = URLRequest(url: pokemonURL)
-        request.httpMethod = HTTPMethod.get.rawValue
-
-        let task = URLSession.shared.dataTask(with: request) { (data, _, error) in
+        guard let name = self.pokemon?.name else { return }
+        client.fetchOnePokemon(named: name) { (pokemonResponse, error) in
             if let error = error {
                 NSLog("Error: \(error)")
                 return
             }
-
-            guard let data = data else { return }
-            do {
-                self.pokemonResponse = try JSONDecoder().decode(PokemonResponse.self, from: data)
-//                print(self.pokemonResponse?.sprites.front_default)
-            } catch {
-                NSLog("Error: \(error)")
-            }
+            self.pokemonResponse = pokemonResponse
         }
-        task.resume()
     }
 
-
-    private func getPokemonSprite() {
-        guard let sprite = self.pokemonResponse?.spriteURLString, let spriteURL = URL(string: sprite) else { return }
-        print(sprite)
-        print(spriteURL)
-        var request = URLRequest(url: spriteURL)
-        request.httpMethod = HTTPMethod.get.rawValue
-
-        let task = URLSession.shared.dataTask(with: request) { (data, _, error) in
-            if let error = error {
-                NSLog("Error: \(error)")
-                return
-            }
-
-            guard let data = data else { return }
-            self.pokemonSprite = UIImage(data: data)
-        }
-        task.resume()
-    }
+    
 
     /*
     // MARK: - Navigation
