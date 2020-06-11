@@ -24,12 +24,13 @@ final class MainTableViewController: UITableViewController {
         super.viewDidLoad()
         self.title = "Pokemons"
         
-        client.fetchAllPokemons(limit: 100, offset: 0) { (allPokemons, error) in
+        // fetches the first 100 pokemons
+        client.fetchAllPokemons(limit: 100, offset: 0) { (firstPokemons, error) in
             if let error = error {
                 NSLog("Error: \(error)")
                 return
             }
-            self.allPokemons = allPokemons
+            self.allPokemons = firstPokemons
         }
     }
     
@@ -46,6 +47,8 @@ final class MainTableViewController: UITableViewController {
         cell.textLabel?.text = allPokemons?.results[indexPath.row].name.capitalized
         
         let count = (self.allPokemons?.results.count)!
+        
+        // fetches more pokemons when reaching the bottom of the list
         if indexPath.row > 90, indexPath.row == count - 1, self.allPokemons?.next != nil {
             client.fetchAllPokemons(limit: 100, offset: count) { (newPokemons, error) in
                 if let error = error {

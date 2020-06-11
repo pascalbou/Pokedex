@@ -12,11 +12,11 @@ import UIKit
 final class PokemonClient {
     let pathBuilder = PokemonPathBuilder()
     
-    func fetchAllPokemons(limit: Int, offset: Int, using session: URLSession = URLSession.shared, completion: @escaping (AllPokemonsResponse?, Error?) -> Void) {
+    func fetchAllPokemons(limit: Int, offset: Int, completion: @escaping (AllPokemonsResponse?, Error?) -> Void) {
         
         let allPokemonsURLString = self.pathBuilder.urlAllPokemons(limit: limit, offset: offset)
         let allPokemonsURL = URL(string: allPokemonsURLString)!
-        fetch(from: allPokemonsURL, using: session) { (allPokemons: AllPokemonsResponse?, error: Error?) in
+        fetch(from: allPokemonsURL) { (allPokemons: AllPokemonsResponse?, error: Error?) in
             guard let allPokemons = allPokemons else {
                 completion(nil, error)
                 return
@@ -25,11 +25,11 @@ final class PokemonClient {
         }
     }
     
-    func fetchOnePokemon(named name: String, using session: URLSession = URLSession.shared, completion: @escaping (PokemonDetail?, Error?) -> Void) {
+    func fetchOnePokemon(for name: String, completion: @escaping (PokemonDetail?, Error?) -> Void) {
         
-        let onePokemonURLString = self.pathBuilder.urlOnePokemon(forPokemon: name)
+        let onePokemonURLString = self.pathBuilder.urlOnePokemon(for: name)
         let onePokemonURL = URL(string: onePokemonURLString)!
-        fetch(from: onePokemonURL, using: session) { (onePokemon: PokemonDetail?, error: Error?) in
+        fetch(from: onePokemonURL) { (onePokemon: PokemonDetail?, error: Error?) in
             guard let onePokemon = onePokemon else {
                 completion(nil, error)
                 return
@@ -38,21 +38,20 @@ final class PokemonClient {
         }
     }
     
-    func fetchPokemonSprite(withSprite sprite: String, using session: URLSession = URLSession.shared, completion: @escaping (Data?, Error?) -> Void) {
+    func fetchPokemonSprite(with sprite: String, completion: @escaping (Data?, Error?) -> Void) {
 
         let pokemonSpriteURL = URL(string: sprite)!
-        fetchImageData(from: pokemonSpriteURL, using: session) { (pokemonSprite: Data?, error: Error?) in
+        fetchImageData(from: pokemonSpriteURL) { (pokemonSprite: Data?, error: Error?) in
             guard let pokemonSprite = pokemonSprite else {
                 completion(nil, error)
                 return
             }
-
             completion(pokemonSprite, nil)
         }
     }
     
-    private func fetch<T: Decodable> (from url: URL, using session: URLSession = URLSession.shared, completion: @escaping (T?, Error?) -> Void) {
-        session.dataTask(with: url) {(data, response, error) in
+    private func fetch<T: Decodable> (from url: URL, completion: @escaping (T?, Error?) -> Void) {
+        let task = URLSession.shared.dataTask(with: url) {(data, response, error) in
             if let error = error {
                 completion(nil, error)
                 return
@@ -71,11 +70,12 @@ final class PokemonClient {
             } catch {
                 completion(nil, error)
             }
-        }.resume()
+        }
+        task.resume()
     }
     
-    private func fetchImageData(from url: URL, using session: URLSession = URLSession.shared, completion: @escaping (Data?, Error?) -> Void) {
-        session.dataTask(with: url) {(data, response, error) in
+    private func fetchImageData(from url: URL, completion: @escaping (Data?, Error?) -> Void) {
+        let task = URLSession.shared.dataTask(with: url) {(data, response, error) in
             if let error = error {
                 completion(nil, error)
                 return
@@ -86,7 +86,8 @@ final class PokemonClient {
                 return
             }
             completion(data, nil)
-        }.resume()
+        }
+        task.resume()
     }
 
 }

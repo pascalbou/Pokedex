@@ -15,7 +15,7 @@ final class PokemonPathBuilder {
         "\(baseURL)/pokemon/?limit=\(limit)&offset=\(offset)"
     }
     
-    func urlOnePokemon(forPokemon name: String) -> String {
+    func urlOnePokemon(for name: String) -> String {
         "\(baseURL)/pokemon/\(name)"
     }
     
