@@ -43,7 +43,7 @@ final class MainTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: self.cellReuseID, for: indexPath)
-        cell.textLabel?.text = allPokemons?.results[indexPath.row].name
+        cell.textLabel?.text = allPokemons?.results[indexPath.row].name.capitalized
         
         let count = (self.allPokemons?.results.count)!
         if indexPath.row > 90, indexPath.row == count - 1, self.allPokemons?.next != nil {
@@ -56,6 +56,7 @@ final class MainTableViewController: UITableViewController {
                 self.allPokemons?.next = newPokemons?.next
             }
         }
+        
         return cell
     }
 

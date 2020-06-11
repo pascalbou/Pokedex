@@ -8,51 +8,49 @@
 
 import Foundation
 
-private struct RawServerResponse: Decodable {
+private struct PokemonDetailResponse: Decodable {
     
-    let moves: [SingleMove]
-    let sprites: Sprite
-    let types: [SingleType]
     let name: String
-
-    struct SingleMove: Decodable {
-        let move: MoveDetail
-    }
-    
-    struct MoveDetail: Decodable {
-        let name: String
-        let url: String
-    }
+    let sprites: Sprite
+    let types: [PokemonType]
+    let moves: [Move]
     
     struct Sprite: Decodable {
-        let front_default: String
-        let front_shiny: String
-    }
-
-    struct SingleType: Decodable {
-        let slot: Int
-        let type: TypeDetail
+        let frontDefault: String
     }
     
-    struct TypeDetail: Decodable {
-        let name: String
-        let url: String
+    struct PokemonType: Decodable {
+        let type: TypeDetail
+        
+        struct TypeDetail: Decodable {
+            let name: String
+            let url: String
+        }
+    }
+    
+    struct Move: Decodable {
+        let move: MoveDetail
+        
+        struct MoveDetail: Decodable {
+            let name: String
+            let url: String
+        }
     }
 }
 
-struct PokemonResponse: Decodable {
+struct PokemonDetail: Decodable {
     let name: String
     let spriteURLString: String
-    var types: [String] = []
-    var attacks: [String] = []
+    var types: [String]
+    var attacks: [String]
     
     init(from decoder: Decoder) throws {
-        let rawResponse = try RawServerResponse(from: decoder)
+        let response = try PokemonDetailResponse(from: decoder)
         
-        name = rawResponse.name
-        spriteURLString = rawResponse.sprites.front_default
-        types.append(rawResponse.types[0].type.name)
-        attacks.append(rawResponse.moves[0].move.name)
+        self.name = response.name
+        self.spriteURLString = response.sprites.frontDefault
+        self.types = response.types.map { $0.type.name }
+        self.attacks = response.moves.map { $0.move.name }
     }
 }
 

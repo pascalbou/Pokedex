@@ -14,7 +14,8 @@ final class PokemonClient {
     
     func fetchAllPokemons(limit: Int, offset: Int, using session: URLSession = URLSession.shared, completion: @escaping (AllPokemonsResponse?, Error?) -> Void) {
         
-        let allPokemonsURL = self.pathBuilder.urlAllPokemons(limit: limit, offset: offset)
+        let allPokemonsURLString = self.pathBuilder.urlAllPokemons(limit: limit, offset: offset)
+        let allPokemonsURL = URL(string: allPokemonsURLString)!
         fetch(from: allPokemonsURL, using: session) { (allPokemons: AllPokemonsResponse?, error: Error?) in
             guard let allPokemons = allPokemons else {
                 completion(nil, error)
@@ -24,10 +25,11 @@ final class PokemonClient {
         }
     }
     
-    func fetchOnePokemon(named name: String, using session: URLSession = URLSession.shared, completion: @escaping (PokemonResponse?, Error?) -> Void) {
+    func fetchOnePokemon(named name: String, using session: URLSession = URLSession.shared, completion: @escaping (PokemonDetail?, Error?) -> Void) {
         
-        let onePokemonURL = self.pathBuilder.urlOnePokemon(forPokemon: name)
-        fetch(from: onePokemonURL, using: session) { (onePokemon: PokemonResponse?, error: Error?) in
+        let onePokemonURLString = self.pathBuilder.urlOnePokemon(forPokemon: name)
+        let onePokemonURL = URL(string: onePokemonURLString)!
+        fetch(from: onePokemonURL, using: session) { (onePokemon: PokemonDetail?, error: Error?) in
             guard let onePokemon = onePokemon else {
                 completion(nil, error)
                 return
@@ -38,7 +40,7 @@ final class PokemonClient {
     
     func fetchPokemonSprite(withSprite sprite: String, using session: URLSession = URLSession.shared, completion: @escaping (Data?, Error?) -> Void) {
 
-        guard let pokemonSpriteURL = self.pathBuilder.urlPokemonSprite(withSprite: sprite) else { return }
+        let pokemonSpriteURL = URL(string: sprite)!
         fetchImageData(from: pokemonSpriteURL, using: session) { (pokemonSprite: Data?, error: Error?) in
             guard let pokemonSprite = pokemonSprite else {
                 completion(nil, error)
@@ -63,6 +65,7 @@ final class PokemonClient {
             
             do {
                 let jsonDecoder = JSONDecoder()
+                jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
                 let decodedObject = try jsonDecoder.decode(T.self, from: data)
                 completion(decodedObject, nil)
             } catch {
