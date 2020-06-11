@@ -24,10 +24,10 @@ final class PokemonClient {
         }
     }
     
-    func fetchOnePokemon(named name: String, using session: URLSession = URLSession.shared, completion: @escaping (PokemonResponse?, Error?) -> Void) {
+    func fetchOnePokemon(named name: String, using session: URLSession = URLSession.shared, completion: @escaping (PokemonDetail?, Error?) -> Void) {
         
         let onePokemonURL = self.pathBuilder.urlOnePokemon(forPokemon: name)
-        fetch(from: onePokemonURL, using: session) { (onePokemon: PokemonResponse?, error: Error?) in
+        fetch(from: onePokemonURL, using: session) { (onePokemon: PokemonDetail?, error: Error?) in
             guard let onePokemon = onePokemon else {
                 completion(nil, error)
                 return

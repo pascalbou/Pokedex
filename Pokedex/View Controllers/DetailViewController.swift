@@ -12,7 +12,7 @@ final class DetailViewController: UIViewController {
 
     private let client = PokemonClient()
     var pokemon: Pokemon?
-    var pokemonResponse: PokemonResponse? {
+    var pokemonResponse: PokemonDetail? {
         didSet {
             DispatchQueue.main.async {
                 guard let sprite = self.pokemonResponse?.spriteURLString else { return }
