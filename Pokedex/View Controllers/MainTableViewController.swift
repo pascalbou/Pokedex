@@ -24,7 +24,7 @@ final class MainTableViewController: UITableViewController {
         super.viewDidLoad()
         self.title = "Pokemons"
         
-        client.fetchAllPokemons { (allPokemons, error) in
+        client.fetchAllPokemons(limit: 100, offset: 0) { (allPokemons, error) in
             if let error = error {
                 NSLog("Error: \(error)")
                 return
@@ -44,6 +44,18 @@ final class MainTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: self.cellReuseID, for: indexPath)
         cell.textLabel?.text = allPokemons?.results[indexPath.row].name
+        
+        let count = (self.allPokemons?.results.count)!
+        if indexPath.row > 90, indexPath.row == count - 1, self.allPokemons?.next != nil {
+            client.fetchAllPokemons(limit: 100, offset: count) { (newPokemons, error) in
+                if let error = error {
+                    NSLog("Error: \(error)")
+                    return
+                }
+                self.allPokemons?.results.append(contentsOf: newPokemons!.results)
+                self.allPokemons?.next = newPokemons?.next
+            }
+        }
         return cell
     }
 

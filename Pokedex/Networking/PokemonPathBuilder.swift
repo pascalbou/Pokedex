@@ -11,11 +11,11 @@ import Foundation
 final class PokemonPathBuilder {
     private let baseURL = URL(string: "https://pokeapi.co/api/v2/")!
     
-    func urlAllPokemons() -> URL {
+    func urlAllPokemons(limit: Int, offset: Int) -> URL {
         var allPokemonsURL = baseURL
         allPokemonsURL.appendPathComponent("pokemon")
         let allPokemonsURLComp = NSURLComponents(url: allPokemonsURL, resolvingAgainstBaseURL: true)!
-        allPokemonsURLComp.queryItems = [URLQueryItem(name: "limit", value: "100"), URLQueryItem(name: "offset", value: "0")]
+        allPokemonsURLComp.queryItems = [URLQueryItem(name: "limit", value: String(limit)), URLQueryItem(name: "offset", value: String(offset))]
         return allPokemonsURLComp.url!
     }
     

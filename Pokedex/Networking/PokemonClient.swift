@@ -12,9 +12,9 @@ import UIKit
 final class PokemonClient {
     let pathBuilder = PokemonPathBuilder()
     
-    func fetchAllPokemons(using session: URLSession = URLSession.shared, completion: @escaping (AllPokemonsResponse?, Error?) -> Void) {
+    func fetchAllPokemons(limit: Int, offset: Int, using session: URLSession = URLSession.shared, completion: @escaping (AllPokemonsResponse?, Error?) -> Void) {
         
-        let allPokemonsURL = self.pathBuilder.urlAllPokemons()
+        let allPokemonsURL = self.pathBuilder.urlAllPokemons(limit: limit, offset: offset)
         fetch(from: allPokemonsURL, using: session) { (allPokemons: AllPokemonsResponse?, error: Error?) in
             guard let allPokemons = allPokemons else {
                 completion(nil, error)
