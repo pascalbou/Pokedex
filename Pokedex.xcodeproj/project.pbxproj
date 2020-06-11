@@ -19,6 +19,7 @@
 		3F7805F0249025A700BCD143 /* PokemonResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F7805EF249025A700BCD143 /* PokemonResponse.swift */; };
 		3F7805F22490265100BCD143 /* HttpMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F7805F12490265100BCD143 /* HttpMethod.swift */; };
 		3F7805F4249027D900BCD143 /* MainTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F7805F3249027D900BCD143 /* MainTableViewController.swift */; };
+		3F94593F2492892300CAAF95 /* PokemonPathBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F94593E2492892300CAAF95 /* PokemonPathBuilder.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		3F7805EF249025A700BCD143 /* PokemonResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonResponse.swift; sourceTree = "<group>"; };
 		3F7805F12490265100BCD143 /* HttpMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpMethod.swift; sourceTree = "<group>"; };
 		3F7805F3249027D900BCD143 /* MainTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewController.swift; sourceTree = "<group>"; };
+		3F94593E2492892300CAAF95 /* PokemonPathBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonPathBuilder.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +55,7 @@
 			isa = PBXGroup;
 			children = (
 				3F248F8D2491909200A17DD5 /* PokemonClient.swift */,
+				3F94593E2492892300CAAF95 /* PokemonPathBuilder.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -188,6 +191,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3F94593F2492892300CAAF95 /* PokemonPathBuilder.swift in Sources */,
 				3F7805F0249025A700BCD143 /* PokemonResponse.swift in Sources */,
 				3F248F8B24918BB600A17DD5 /* Pokemon.swift in Sources */,
 				3F7805D524901CDA00BCD143 /* AppDelegate.swift in Sources */,

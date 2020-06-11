@@ -10,11 +10,11 @@ import Foundation
 import UIKit
 
 final class PokemonClient {
-    private let baseURL = URL(string: "https://pokeapi.co/api/v2/")!
+    let pathBuilder = PokemonPathBuilder()
     
     func fetchAllPokemons(using session: URLSession = URLSession.shared, completion: @escaping (AllPokemonsResponse?, Error?) -> Void) {
         
-        let allPokemonsURL = self.urlAllPokemons()
+        let allPokemonsURL = self.pathBuilder.urlAllPokemons()
         fetch(from: allPokemonsURL, using: session) { (allPokemons: AllPokemonsResponse?, error: Error?) in
             guard let allPokemons = allPokemons else {
                 completion(nil, error)
@@ -26,7 +26,7 @@ final class PokemonClient {
     
     func fetchOnePokemon(named name: String, using session: URLSession = URLSession.shared, completion: @escaping (PokemonResponse?, Error?) -> Void) {
         
-        let onePokemonURL = self.urlOnePokemon(forPokemon: name)
+        let onePokemonURL = self.pathBuilder.urlOnePokemon(forPokemon: name)
         fetch(from: onePokemonURL, using: session) { (onePokemon: PokemonResponse?, error: Error?) in
             guard let onePokemon = onePokemon else {
                 completion(nil, error)
@@ -38,7 +38,7 @@ final class PokemonClient {
     
     func fetchPokemonSprite(withSprite sprite: String, using session: URLSession = URLSession.shared, completion: @escaping (Data?, Error?) -> Void) {
 
-        guard let pokemonSpriteURL = self.urlPokemonSprite(withSprite: sprite) else { return }
+        guard let pokemonSpriteURL = self.pathBuilder.urlPokemonSprite(withSprite: sprite) else { return }
         fetchImageData(from: pokemonSpriteURL, using: session) { (pokemonSprite: Data?, error: Error?) in
             guard let pokemonSprite = pokemonSprite else {
                 completion(nil, error)
@@ -84,26 +84,6 @@ final class PokemonClient {
             }
             completion(data, nil)
         }.resume()
-    }
-    
-    private func urlAllPokemons() -> URL {
-        var allPokemonsURL = baseURL
-        allPokemonsURL.appendPathComponent("pokemon")
-        let allPokemonsURLComp = NSURLComponents(url: allPokemonsURL, resolvingAgainstBaseURL: true)!
-        allPokemonsURLComp.queryItems = [URLQueryItem(name: "limit", value: "100"), URLQueryItem(name: "offset", value: "0")]
-        return allPokemonsURLComp.url!
-    }
-    
-    private func urlOnePokemon(forPokemon pokemonName: String) -> URL {
-        var pokemonURL = baseURL
-        pokemonURL.appendPathComponent("pokemon")
-        pokemonURL.appendPathComponent(pokemonName)
-        return pokemonURL
-    }
-    
-    private func urlPokemonSprite(withSprite sprite: String) -> URL? {
-        guard let spriteURL = URL(string: sprite) else { return nil }
-        return spriteURL
     }
 
 }

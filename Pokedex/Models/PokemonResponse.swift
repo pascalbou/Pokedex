@@ -10,10 +10,10 @@ import Foundation
 
 private struct RawServerResponse: Decodable {
     
-    var moves: [SingleMove]
-    var sprites: Sprite
-    var types: [SingleType]
-    var name: String
+    let moves: [SingleMove]
+    let sprites: Sprite
+    let types: [SingleType]
+    let name: String
 
     struct SingleMove: Decodable {
         let move: MoveDetail
@@ -41,8 +41,8 @@ private struct RawServerResponse: Decodable {
 }
 
 struct PokemonResponse: Decodable {
-    var name: String
-    var spriteURLString: String
+    let name: String
+    let spriteURLString: String
     var types: [String] = []
     var attacks: [String] = []
     
