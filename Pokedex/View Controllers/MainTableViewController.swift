@@ -43,7 +43,7 @@ final class MainTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: self.cellReuseID, for: indexPath)
-        cell.textLabel?.text = allPokemons?.results[indexPath.row].name
+        cell.textLabel?.text = allPokemons?.results[indexPath.row].name.capitalized
         return cell
     }
 
