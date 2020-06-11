@@ -43,12 +43,16 @@ private struct RawServerResponse: Decodable {
 struct PokemonResponse: Decodable {
     var name: String
     var spriteURLString: String
+    var types: [String] = []
+    var attacks: [String] = []
     
     init(from decoder: Decoder) throws {
         let rawResponse = try RawServerResponse(from: decoder)
         
         name = rawResponse.name
         spriteURLString = rawResponse.sprites.front_default
+        types.append(rawResponse.types[0].type.name)
+        attacks.append(rawResponse.moves[0].move.name)
     }
 }
 
