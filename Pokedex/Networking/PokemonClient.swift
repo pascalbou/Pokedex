@@ -82,7 +82,6 @@ final class PokemonClient {
                 completion(nil, NSError(domain: "", code: -1, userInfo: nil))
                 return
             }
-            
             completion(data, nil)
         }.resume()
     }
