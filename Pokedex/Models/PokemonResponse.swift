@@ -16,7 +16,7 @@ private struct PokemonDetailResponse: Decodable {
     let moves: [Move]
     
     struct Sprite: Decodable {
-        let front_default: String
+        let frontDefault: String
     }
     
     struct PokemonType: Decodable {
@@ -48,7 +48,7 @@ struct PokemonDetail: Decodable {
         let response = try PokemonDetailResponse(from: decoder)
         
         self.name = response.name
-        self.spriteURLString = response.sprites.front_default
+        self.spriteURLString = response.sprites.frontDefault
         self.types = response.types.map { $0.type.name }
         self.attacks = response.moves.map { $0.move.name }
     }
