@@ -12,53 +12,55 @@ import UIKit
 final class PokemonClient {
     let pathBuilder = PokemonPathBuilder()
     
-    func fetchAllPokemons(limit: Int, offset: Int, completion: @escaping (AllPokemonsResponse?, Error?) -> Void) {
+    func fetchAllPokemons(limit: Int, offset: Int, completion: @escaping (Result<AllPokemonsResponse, NetworkError>) -> Void) {
         
         let allPokemonsURLString = self.pathBuilder.urlAllPokemons(limit: limit, offset: offset)
         let allPokemonsURL = URL(string: allPokemonsURLString)!
-        fetch(from: allPokemonsURL) { (allPokemons: AllPokemonsResponse?, error: Error?) in
-            guard let allPokemons = allPokemons else {
-                completion(nil, error)
-                return
+        fetch(from: allPokemonsURL) { (result: Result<AllPokemonsResponse, NetworkError>) in
+            if let allPokemons = try? result.get() {
+                completion(.success(allPokemons))
+            } else {
+                completion(.failure(.badData))
             }
-            completion(allPokemons, nil)
+            
         }
     }
     
-    func fetchOnePokemon(for name: String, completion: @escaping (PokemonDetail?, Error?) -> Void) {
+    func fetchOnePokemon(for name: String, completion: @escaping (Result<PokemonDetail, NetworkError>) -> Void) {
         
         let onePokemonURLString = self.pathBuilder.urlOnePokemon(for: name)
         let onePokemonURL = URL(string: onePokemonURLString)!
-        fetch(from: onePokemonURL) { (onePokemon: PokemonDetail?, error: Error?) in
-            guard let onePokemon = onePokemon else {
-                completion(nil, error)
-                return
+        fetch(from: onePokemonURL) { (result: Result<PokemonDetail, NetworkError>) in
+            if let onePokemon = try? result.get() {
+                completion(.success(onePokemon))
+            } else {
+                completion(.failure(.badData))
             }
-            completion(onePokemon, nil)
+            
         }
     }
     
-    func fetchPokemonSprite(with sprite: String, completion: @escaping (Data?, Error?) -> Void) {
+    func fetchPokemonSprite(with sprite: String, completion: @escaping (Result<Data, NetworkError>) -> Void) {
 
         let pokemonSpriteURL = URL(string: sprite)!
-        fetchImageData(from: pokemonSpriteURL) { (pokemonSprite: Data?, error: Error?) in
-            guard let pokemonSprite = pokemonSprite else {
-                completion(nil, error)
-                return
+        fetchImageData(from: pokemonSpriteURL) { (result) in
+            if let pokemonSprite = try? result.get() {
+                completion(.success(pokemonSprite))
+            } else {
+                completion(.failure(.badData))
             }
-            completion(pokemonSprite, nil)
         }
     }
     
-    private func fetch<T: Decodable> (from url: URL, completion: @escaping (T?, Error?) -> Void) {
-        let task = URLSession.shared.dataTask(with: url) {(data, response, error) in
-            if let error = error {
-                completion(nil, error)
+    private func fetch<T: Decodable> (from url: URL, completion: @escaping (Result<T, NetworkError>) -> Void) {
+        let task = URLSession.shared.dataTask(with: url) {(data, _, error) in
+            if let _ = error {
+                completion(.failure(.otherError))
                 return
             }
             
             guard let data = data else {
-                completion(nil, NSError(domain: "", code: -1, userInfo: nil))
+                completion(.failure(.badData))
                 return
             }
             
@@ -66,26 +68,26 @@ final class PokemonClient {
                 let jsonDecoder = JSONDecoder()
                 jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
                 let decodedObject = try jsonDecoder.decode(T.self, from: data)
-                completion(decodedObject, nil)
+                completion(.success(decodedObject))
             } catch {
-                completion(nil, error)
+                completion(.failure(.noDecode))
             }
         }
         task.resume()
     }
     
-    private func fetchImageData(from url: URL, completion: @escaping (Data?, Error?) -> Void) {
+    private func fetchImageData(from url: URL, completion: @escaping (Result<Data, NetworkError>) -> Void) {
         let task = URLSession.shared.dataTask(with: url) {(data, response, error) in
-            if let error = error {
-                completion(nil, error)
+            if let _ = error {
+                completion(.failure(.otherError))
                 return
             }
             
             guard let data = data else {
-                completion(nil, NSError(domain: "", code: -1, userInfo: nil))
+                completion(.failure(.badData))
                 return
             }
-            completion(data, nil)
+            completion(.success(data))
         }
         task.resume()
     }

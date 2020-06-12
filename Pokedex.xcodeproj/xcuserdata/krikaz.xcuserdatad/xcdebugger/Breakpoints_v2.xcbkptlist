@@ -262,8 +262,8 @@
             filePath = "Pokedex/View Controllers/DetailViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "30"
-            endingLineNumber = "30"
+            startingLineNumber = "27"
+            endingLineNumber = "27"
             landmarkName = "pokemonSprite"
             landmarkType = "24">
             <Locations>
@@ -370,8 +370,8 @@
             filePath = "Pokedex/View Controllers/DetailViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "34"
-            endingLineNumber = "34"
+            startingLineNumber = "31"
+            endingLineNumber = "31"
             landmarkName = "pokemonSprite"
             landmarkType = "24">
          </BreakpointContent>
@@ -386,8 +386,8 @@
             filePath = "Pokedex/View Controllers/DetailViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "24"
-            endingLineNumber = "24"
+            startingLineNumber = "20"
+            endingLineNumber = "20"
             landmarkName = "pokemonResponse"
             landmarkType = "24">
          </BreakpointContent>

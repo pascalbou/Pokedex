@@ -16,13 +16,10 @@ final class DetailViewController: UIViewController {
         didSet {
             DispatchQueue.main.async {
                 guard let sprite = self.pokemonResponse?.spriteURL else { return }
-                self.client.fetchPokemonSprite(with: sprite) { (data, error) in
-                    if let error = error {
-                        NSLog("Error: \(error)")
-                        return
+                self.client.fetchPokemonSprite(with: sprite) { (result) in
+                    if let data = try? result.get() {
+                        self.pokemonSprite = UIImage(data: data)
                     }
-                    guard let data = data else { return }
-                    self.pokemonSprite = UIImage(data: data)
                 }
             }
         }
@@ -47,12 +44,10 @@ final class DetailViewController: UIViewController {
         super.viewDidLoad()
         
         guard let name = self.pokemon?.name else { return }
-        client.fetchOnePokemon(for: name) { (pokemonResponse, error) in
-            if let error = error {
-                NSLog("Error: \(error)")
-                return
+        client.fetchOnePokemon(for: name) { (result) in
+            if let pokemonDetail = try? result.get() {
+                self.pokemonResponse = pokemonDetail
             }
-            self.pokemonResponse = pokemonResponse
         }
     }
 
