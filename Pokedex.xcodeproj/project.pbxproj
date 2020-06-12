@@ -20,6 +20,7 @@
 		3F7805F22490265100BCD143 /* HttpMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F7805F12490265100BCD143 /* HttpMethod.swift */; };
 		3F7805F4249027D900BCD143 /* MainTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F7805F3249027D900BCD143 /* MainTableViewController.swift */; };
 		3F94593F2492892300CAAF95 /* PokemonPathBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F94593E2492892300CAAF95 /* PokemonPathBuilder.swift */; };
+		3F9459412492F59900CAAF95 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9459402492F59900CAAF95 /* NetworkError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		3F7805F12490265100BCD143 /* HttpMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpMethod.swift; sourceTree = "<group>"; };
 		3F7805F3249027D900BCD143 /* MainTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewController.swift; sourceTree = "<group>"; };
 		3F94593E2492892300CAAF95 /* PokemonPathBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonPathBuilder.swift; sourceTree = "<group>"; };
+		3F9459402492F59900CAAF95 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +109,7 @@
 				3F248F882491846A00A17DD5 /* AllPokemonsResponse.swift */,
 				3F7805EF249025A700BCD143 /* PokemonResponse.swift */,
 				3F7805F12490265100BCD143 /* HttpMethod.swift */,
+				3F9459402492F59900CAAF95 /* NetworkError.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -200,6 +203,7 @@
 				3F7805F22490265100BCD143 /* HttpMethod.swift in Sources */,
 				3F248F8E2491909200A17DD5 /* PokemonClient.swift in Sources */,
 				3F7805EE24901EB200BCD143 /* DetailViewController.swift in Sources */,
+				3F9459412492F59900CAAF95 /* NetworkError.swift in Sources */,
 				3F7805F4249027D900BCD143 /* MainTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -9,13 +9,13 @@
 import Foundation
 
 final class PokemonPathBuilder {
-    private let baseURL = URL(string: "https://pokeapi.co/api/v2/")!
+    private let baseURL = "https://pokeapi.co/api/v2/"
     
-    func urlAllPokemons() -> String {
-        "\(baseURL)/pokemon/?limit=100&offset=0"
+    func urlAllPokemons(limit: Int, offset: Int) -> String {
+        "\(baseURL)/pokemon/?limit=\(limit)&offset=\(offset)"
     }
     
-    func urlOnePokemon(forPokemon name: String) -> String {
+    func urlOnePokemon(for name: String) -> String {
         "\(baseURL)/pokemon/\(name)"
     }
     

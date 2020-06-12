@@ -15,14 +15,11 @@ final class DetailViewController: UIViewController {
     var pokemonResponse: PokemonDetail? {
         didSet {
             DispatchQueue.main.async {
-                guard let sprite = self.pokemonResponse?.spriteURLString else { return }
-                self.client.fetchPokemonSprite(withSprite: sprite) { (data, error) in
-                    if let error = error {
-                        NSLog("Error: \(error)")
-                        return
+                guard let sprite = self.pokemonResponse?.spriteURL else { return }
+                self.client.fetchPokemonSprite(with: sprite) { (result) in
+                    if let data = try? result.get() {
+                        self.pokemonSprite = UIImage(data: data)
                     }
-                    guard let data = data else { return }
-                    self.pokemonSprite = UIImage(data: data)
                 }
             }
         }
@@ -45,26 +42,13 @@ final class DetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         guard let name = self.pokemon?.name else { return }
-        client.fetchOnePokemon(named: name) { (pokemonResponse, error) in
-            if let error = error {
-                NSLog("Error: \(error)")
-                return
+        client.fetchOnePokemon(for: name) { (result) in
+            if let pokemonDetail = try? result.get() {
+                self.pokemonResponse = pokemonDetail
             }
-            self.pokemonResponse = pokemonResponse
         }
     }
-
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

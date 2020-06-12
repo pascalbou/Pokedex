@@ -24,12 +24,11 @@ final class MainTableViewController: UITableViewController {
         super.viewDidLoad()
         self.title = "Pokemons"
         
-        client.fetchAllPokemons { (allPokemons, error) in
-            if let error = error {
-                NSLog("Error: \(error)")
-                return
+        // fetches the first 100 pokemons
+        client.fetchAllPokemons(limit: 100, offset: 0) { (result) in
+            if let firstPokemons = try? result.get() {
+                self.allPokemons = firstPokemons
             }
-            self.allPokemons = allPokemons
         }
     }
     
@@ -44,6 +43,19 @@ final class MainTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: self.cellReuseID, for: indexPath)
         cell.textLabel?.text = allPokemons?.results[indexPath.row].name.capitalized
+        
+        let count = (self.allPokemons?.results.count)!
+        
+        // fetches more pokemons when reaching the bottom of the list
+        if indexPath.row > 90, indexPath.row == count - 1, self.allPokemons?.next != nil {
+            client.fetchAllPokemons(limit: 100, offset: count) { (result) in
+                if let newPokemons = try? result.get() {
+                    self.allPokemons?.results.append(contentsOf: newPokemons.results)
+                    self.allPokemons?.next = newPokemons.next
+                }
+            }
+        }
+        
         return cell
     }
 
