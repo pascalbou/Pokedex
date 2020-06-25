@@ -9,7 +9,7 @@
 import Foundation
 
 final class PokemonPathBuilder {
-    private let baseURL = "https://pokeapi.co/api/v2/"
+    private let baseURL = "https://pokeapi.co/api/v2"
     
     func urlAllPokemons(limit: Int, offset: Int) -> String {
         "\(baseURL)/pokemon/?limit=\(limit)&offset=\(offset)"
@@ -18,5 +18,4 @@ final class PokemonPathBuilder {
     func urlOnePokemon(for name: String) -> String {
         "\(baseURL)/pokemon/\(name)"
     }
-    
 }

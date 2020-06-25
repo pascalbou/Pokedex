@@ -9,7 +9,8 @@
 import UIKit
 
 final class MainTableViewController: UITableViewController {
-
+    
+    private let viewModel = MainViewModel()
     private let client = PokemonClient()
     private let cellReuseID = "PokemonCell"
     private var allPokemons: AllPokemonsResponse? {
@@ -23,16 +24,15 @@ final class MainTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Pokemons"
-        
-        // fetches the first 100 pokemons
-        client.fetchAllPokemons(limit: 100, offset: 0) { (result) in
-            if let firstPokemons = try? result.get() {
-                self.allPokemons = firstPokemons
-            }
+        bind()
+        viewModel.viewDidLoad()
+    }
+
+    func bind() {
+        viewModel.pokemonsOutput = { [weak self] pokemons in
+            self?.allPokemons = pokemons
         }
     }
-    
-
 
     // MARK: - Table view data source
 
@@ -44,17 +44,17 @@ final class MainTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: self.cellReuseID, for: indexPath)
         cell.textLabel?.text = allPokemons?.results[indexPath.row].name.capitalized
         
-        let count = (self.allPokemons?.results.count)!
+//        let count = (self.allPokemons?.results.count)!
         
         // fetches more pokemons when reaching the bottom of the list
-        if indexPath.row > 90, indexPath.row == count - 1, self.allPokemons?.next != nil {
-            client.fetchAllPokemons(limit: 100, offset: count) { (result) in
-                if let newPokemons = try? result.get() {
-                    self.allPokemons?.results.append(contentsOf: newPokemons.results)
-                    self.allPokemons?.next = newPokemons.next
-                }
-            }
-        }
+//        if indexPath.row > 90, indexPath.row == count - 1, self.allPokemons?.next != nil {
+//            client.fetchAllPokemons(limit: 100, offset: count) { (result) in
+//                if let newPokemons = try? result.get() {
+//                    self.allPokemons?.results.append(contentsOf: newPokemons.results)
+//                    self.allPokemons?.next = newPokemons.next
+//                }
+//            }
+//        }
         
         return cell
     }
