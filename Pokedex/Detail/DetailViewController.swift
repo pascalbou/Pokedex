@@ -11,7 +11,7 @@ import UIKit
 final class DetailViewController: UIViewController {
 
     private let client = PokemonClient()
-    var pokemon: Pokemon?
+    var pokemon: String?
     var pokemonResponse: PokemonDetail? {
         didSet {
             DispatchQueue.main.async {
@@ -28,7 +28,7 @@ final class DetailViewController: UIViewController {
         didSet {
             DispatchQueue.main.async {
                 self.pokemonImageView.image = self.pokemonSprite
-                self.pokemonNameLabel.text = self.pokemon?.name.capitalized
+                self.pokemonNameLabel.text = self.pokemon
                 self.pokemonTypeLabel.text = self.pokemonResponse?.types.joined(separator: ", ").capitalized
                 self.pokemonAttacksLabel.text = self.pokemonResponse?.attacks.joined(separator: ", ").capitalized
             }
@@ -43,8 +43,8 @@ final class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        guard let name = self.pokemon?.name else { return }
-        client.fetchOnePokemon(for: name) { (result) in
+        guard let pokemon = self.pokemon else { return }
+        client.fetchOnePokemon(for: pokemon) { (result) in
             if let pokemonDetail = try? result.get() {
                 self.pokemonResponse = pokemonDetail
             }

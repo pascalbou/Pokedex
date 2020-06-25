@@ -13,8 +13,7 @@ final class MainViewModel {
 //    private var pokemons: [Pokemon] = []
 
     // Outputs
-    var pokemonsOutput: ((AllPokemonsResponse) -> Void)?
-//    var pokemonsOutput: (([Pokemons]) -> Void)?
+    var pokemonsOutput: (([String]) -> Void)?
 
     // Inputs
     func viewDidLoad() {
@@ -22,9 +21,7 @@ final class MainViewModel {
         client.fetchAllPokemons(limit: 100, offset: 0) { (result) in
             switch result {
             case let .success(response):
-//                self.pokemons.append(firstPokemons.results.map { $0.name })
-//                self.pokemonsOutput?(self.pokemons)
-                self.pokemonsOutput?(response)
+                self.pokemonsOutput?(response.results.map { $0.name })
             case let .failure(error):
                 print(error.localizedDescription)
             }
