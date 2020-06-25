@@ -11,7 +11,6 @@ import UIKit
 final class MainTableViewController: UITableViewController {
     
     private let viewModel = MainViewModel()
-//    private let client = PokemonClient()
     private let cellReuseID = "PokemonCell"
     private var allPokemons: [String]? {
         didSet {
