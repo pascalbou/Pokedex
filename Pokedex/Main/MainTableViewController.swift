@@ -43,17 +43,12 @@ final class MainTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: self.cellReuseID, for: indexPath)
         cell.textLabel?.text = allPokemons?[indexPath.row].capitalized
         
-//        let count = (self.allPokemons?.count)!
+        let count = (self.allPokemons?.count)!
         
-//         fetches more pokemons when reaching the bottom of the list
-//        if indexPath.row > 90, indexPath.row == count - 1, self.allPokemons?.next != nil {
-//            client.fetchAllPokemons(limit: 100, offset: count) { (result) in
-//                if let newPokemons = try? result.get() {
-//                    self.allPokemons?.results.append(contentsOf: newPokemons.results)
-//                    self.allPokemons?.next = newPokemons.next
-//                }
-//            }
-//        }
+        // fetches more pokemons when reaching the bottom of the list
+        if indexPath.row > 90, indexPath.row == count - 1 {
+            viewModel.fetchNextPokemons(count: count)
+        }
         
         return cell
     }
