@@ -12,7 +12,7 @@ final class MainTableViewController: UITableViewController {
     
     private let viewModel = MainViewModel()
     private let cellReuseID = "PokemonCell"
-    private var pokemonNames: [String] = [] {
+    var pokemonNames: [String] = [] {
         didSet {
             DispatchQueue.main.async {
                 self.tableView.reloadData()
@@ -59,7 +59,7 @@ final class MainTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "DetailViewSegue" {
             if let destinationVC = segue.destination as? DetailViewController, let index = tableView.indexPathForSelectedRow?.row {
-                destinationVC.pokemon = self.pokemonNames[index]
+                destinationVC.viewModel.pokemonName = self.pokemonNames[index]
             }
         }
     }

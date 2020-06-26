@@ -32,6 +32,7 @@ final class MainViewModel {
                 print(error.localizedDescription)
             }
         }
+        
     }
     
     func fetchNextPokemons(count: Int) {
