@@ -12,13 +12,13 @@ final class MainViewModel {
     private let client = PokemonClient()
     private var pokemons: [Pokemon]? {
         didSet {
-            self.pokemonsOutput?((self.pokemons?.map { $0.name })!)
+            self.pokemonNames?((self.pokemons?.map { $0.name })!)
         }
     }
-    var nextPokemons: String?
+    var nextPokemonsURLString: String?
 
     // Outputs
-    var pokemonsOutput: (([String]) -> Void)?
+    var pokemonNames: (([String]) -> Void)?
     
     // Inputs
     func viewDidLoad() {
@@ -26,9 +26,8 @@ final class MainViewModel {
         client.fetchAllPokemons(limit: 100, offset: 0) { (result) in
             switch result {
             case let .success(response):
-//                self.pokemonsOutput?(response.results.map { $0.name })
                 self.pokemons = response.results
-                self.nextPokemons = response.next ?? nil
+                self.nextPokemonsURLString = response.next
             case let .failure(error):
                 print(error.localizedDescription)
             }
@@ -36,13 +35,13 @@ final class MainViewModel {
     }
     
     func fetchNextPokemons(count: Int) {
-        if self.nextPokemons != nil {
-            client.fetchAllPokemons(limit: 100, offset: count) { (result) in
-                if let newPokemons = try? result.get() {
-                    self.pokemons?.append(contentsOf: newPokemons.results)
-                    self.nextPokemons = newPokemons.next
-                }
+        guard let _ = self.nextPokemonsURLString else { return }
+        client.fetchAllPokemons(limit: 100, offset: count) { (result) in
+            if let newPokemons = try? result.get() {
+                self.pokemons?.append(contentsOf: newPokemons.results)
+                self.nextPokemonsURLString = newPokemons.next
             }
         }
+
     }
 }
