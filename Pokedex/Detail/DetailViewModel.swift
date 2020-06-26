@@ -12,9 +12,6 @@ final class DetailViewModel {
     let client = PokemonClient()
     
     var pokemonName: String?
-    var types: ((String) -> Void)?
-    var attacks: ((String) -> Void)?
-    var pokemonSprite: ((UIImage) -> Void)?
     var spriteURL: String? {
         didSet {
             DispatchQueue.main.async {
@@ -28,13 +25,16 @@ final class DetailViewModel {
         }
     }
     
+    // Outputs
+    var types: ((String) -> Void)?
+    var attacks: ((String) -> Void)?
+    var pokemonSprite: ((UIImage) -> Void)?
     
     func viewDidLoad() {
         guard let pokemonName = self.pokemonName else { return }
         client.fetchOnePokemon(for: pokemonName) { (result) in
             if let pokemonDetail = try? result.get() {
                 self.spriteURL = pokemonDetail.spriteURL
-//                self.pokemonName = pokemonDetail.name.capitalized
                 self.types?(pokemonDetail.types.joined(separator: ", ").capitalized)
                 self.attacks?(pokemonDetail.attacks.joined(separator: ", ").capitalized)
             }

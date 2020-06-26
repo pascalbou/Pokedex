@@ -22,7 +22,6 @@ final class MainTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "Pokemons"
         bind()
         viewModel.viewDidLoad()
     }
@@ -30,6 +29,9 @@ final class MainTableViewController: UITableViewController {
     func bind() {
         viewModel.pokemonNames = { [weak self] pokemons in
             self?.pokemonNames = pokemons
+        }
+        viewModel.title = { [weak self] title in
+            self?.title = title
         }
     }
 

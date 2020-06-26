@@ -9,18 +9,19 @@
 import Foundation
 
 final class MainViewModel {
+    
     private let client = PokemonClient()
     private var pokemons: [Pokemon]? {
         didSet {
             self.pokemonNames?((self.pokemons?.map { $0.name })!)
         }
     }
-    var nextPokemonsURLString: String?
+    private var nextPokemonsURLString: String?
 
     // Outputs
     var pokemonNames: (([String]) -> Void)?
+    var title: ((String) -> Void)?
     
-    // Inputs
     func viewDidLoad() {
         // fetches the first 100 pokemons
         client.fetchAllPokemons(limit: 100, offset: 0) { (result) in
@@ -32,6 +33,8 @@ final class MainViewModel {
                 print(error.localizedDescription)
             }
         }
+        
+        self.title?("Pokemons")
         
     }
     
