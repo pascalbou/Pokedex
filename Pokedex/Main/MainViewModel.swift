@@ -41,10 +41,14 @@ final class MainViewModel {
     func fetchNextPokemons(count: Int) {
         guard let _ = self.nextPokemonsURLString else { return }
         client.fetchAllPokemons(limit: 100, offset: count) { (result) in
-            if let newPokemons = try? result.get() {
+            switch result {
+            case let .success(newPokemons):
                 self.pokemons?.append(contentsOf: newPokemons.results)
                 self.nextPokemonsURLString = newPokemons.next
+            case let .failure(error):
+                print(error.localizedDescription)
             }
+
         }
 
     }

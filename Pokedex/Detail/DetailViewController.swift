@@ -10,7 +10,7 @@ import UIKit
 
 final class DetailViewController: UIViewController {
     
-    let viewModel = DetailViewModel()
+    let viewModel = DetailViewModel(client: PokemonClient())
 
     @IBOutlet weak var pokemonImageView: UIImageView!
     @IBOutlet weak var pokemonNameLabel: UILabel!
@@ -27,7 +27,7 @@ final class DetailViewController: UIViewController {
     func bind() {
         viewModel.pokemonSprite = { [weak self] pokemonSprite in
             DispatchQueue.main.async {
-                self?.pokemonImageView.image = pokemonSprite
+                self?.pokemonImageView.image = UIImage(data: pokemonSprite)
             }
         }
         viewModel.types = { [weak self] types in

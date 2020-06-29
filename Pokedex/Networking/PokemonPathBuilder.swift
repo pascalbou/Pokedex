@@ -8,7 +8,12 @@
 
 import Foundation
 
-final class PokemonPathBuilder {
+protocol PokemonPathBuilderType {
+    func urlAllPokemons(limit: Int, offset: Int) -> String
+    func urlOnePokemon(for name: String) -> String
+}
+
+final class PokemonPathBuilder: PokemonPathBuilderType {
     private let baseURL = "https://pokeapi.co/api/v2"
     
     func urlAllPokemons(limit: Int, offset: Int) -> String {
