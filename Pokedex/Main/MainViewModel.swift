@@ -10,7 +10,7 @@ import Foundation
 
 final class MainViewModel {
     
-    private let client = PokemonClient()
+    private let client: PokemonClientType
     private var pokemons: [Pokemon]? {
         didSet {
             self.pokemonNames?((self.pokemons?.map { $0.name })!)
@@ -21,6 +21,10 @@ final class MainViewModel {
     // Outputs
     var pokemonNames: (([String]) -> Void)?
     var title: ((String) -> Void)?
+    
+    init(client: PokemonClientType) {
+        self.client = client
+    }
     
     func viewDidLoad() {
         // fetches the first 100 pokemons

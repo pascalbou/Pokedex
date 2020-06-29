@@ -10,7 +10,7 @@ import UIKit
 
 final class DetailViewController: UIViewController {
     
-    let viewModel = DetailViewModel(client: PokemonClient())
+    let viewModel = DetailViewModel(client: PokemonClient(pathBuilder: PokemonPathBuilder()))
 
     @IBOutlet weak var pokemonImageView: UIImageView!
     @IBOutlet weak var pokemonNameLabel: UILabel!

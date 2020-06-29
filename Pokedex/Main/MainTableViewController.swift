@@ -10,7 +10,7 @@ import UIKit
 
 final class MainTableViewController: UITableViewController {
     
-    private let viewModel = MainViewModel()
+    private let viewModel = MainViewModel(client: PokemonClient(pathBuilder: PokemonPathBuilder()))
     private let cellReuseID = "PokemonCell"
     var pokemonNames: [String] = [] {
         didSet {

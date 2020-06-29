@@ -9,7 +9,7 @@
 import Foundation
 
 final class DetailViewModel {
-    let client: PokemonClientType
+    private let client: PokemonClientType
     var pokemonName: String?
     
     // Outputs

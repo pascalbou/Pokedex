@@ -16,7 +16,11 @@ protocol PokemonClientType {
 }
 
 final class PokemonClient: PokemonClientType {
-    let pathBuilder = PokemonPathBuilder()
+    let pathBuilder: PokemonPathBuilderType
+    
+    init(pathBuilder: PokemonPathBuilderType) {
+        self.pathBuilder = pathBuilder
+    }
     
     func fetchAllPokemons(limit: Int, offset: Int, completion: @escaping (Result<AllPokemonsResponse, NetworkError>) -> Void) {
         
