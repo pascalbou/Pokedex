@@ -9,8 +9,18 @@
 import Foundation
 import UIKit
 
-final class PokemonClient {
-    let pathBuilder = PokemonPathBuilder()
+protocol PokemonClientType {
+    func fetchAllPokemons(limit: Int, offset: Int, completion: @escaping (Result<AllPokemonsResponse, NetworkError>) -> Void)
+    func fetchOnePokemon(for name: String, completion: @escaping (Result<PokemonDetail, NetworkError>) -> Void)
+    func fetchPokemonSprite(with sprite: String, completion: @escaping (Result<Data, NetworkError>) -> Void)
+}
+
+final class PokemonClient: PokemonClientType {
+    let pathBuilder: PokemonPathBuilderType
+    
+    init(pathBuilder: PokemonPathBuilderType) {
+        self.pathBuilder = pathBuilder
+    }
     
     func fetchAllPokemons(limit: Int, offset: Int, completion: @escaping (Result<AllPokemonsResponse, NetworkError>) -> Void) {
         
